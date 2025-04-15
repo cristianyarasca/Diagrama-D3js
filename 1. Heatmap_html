@@ -1,8 +1,14 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráfico con D3</title>
+</head>
+<body>
+  <div id="my_dataviz"></div>
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v6.js"></script>
-
-<!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+  <!-- Carga D3 y tu script al final del body -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
