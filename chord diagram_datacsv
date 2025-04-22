@@ -1,0 +1,52 @@
+// create the svg area
+const svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", 440)
+    .attr("height", 440)
+  .append("g")
+    .attr("transform", "translate(220,220)");
+
+// 4 groups, so create a vector of 4 colors
+const colors = [ "#440154ff", "#31668dff", "#37b578ff", "#fde725ff" ];
+
+// Cargar los datos desde el archivo CSV
+d3.csv("data.csv").then(function(data) {
+  // Convertimos los datos en una matriz numérica
+  const matrix = data.map(row => {
+    // Eliminamos la primera columna (los nombres) y convertimos el resto a números
+    return Object.values(row).slice(1).map(d => +d);
+  });
+
+  // Usamos d3.chord con la matriz cargada
+  const res = d3.chord()
+    .padAngle(0.05)
+    .sortSubgroups(d3.descending)(matrix);
+
+  // Agregar los arcos exteriores
+  svg
+    .datum(res)
+    .append("g")
+    .selectAll("g")
+    .data(d => d.groups)
+    .join("g")
+    .append("path")
+      .style("fill", (d,i) => colors[i])
+      .style("stroke", "black")
+      .attr("d", d3.arc()
+        .innerRadius(200)
+        .outerRadius(210)
+      );
+
+  // Agregar los ribbons
+  svg
+    .datum(res)
+    .append("g")
+    .selectAll("path")
+    .data(d => d)
+    .join("path")
+      .attr("d", d3.ribbon()
+        .radius(200)
+      )
+      .style("fill", d => colors[d.source.index])
+      .style("stroke", "black");
+});
