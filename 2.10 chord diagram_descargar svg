@@ -1,0 +1,22 @@
+//agregar al html
+
+<button id="download">Descargar SVG</button>
+
+//agregar al script
+
+document.getElementById("download").addEventListener("click", function() {
+  const svgNode = document.querySelector("#my_dataviz svg");
+  const serializer = new XMLSerializer();
+  let source = serializer.serializeToString(svgNode);
+
+  // Añadir encabezado de XML para que Illustrator lo entienda bien
+  source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+  const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "chord_diagram.svg";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
