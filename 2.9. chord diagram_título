@@ -1,0 +1,30 @@
+
+// Agregar antes de cargar data CSV
+// Crear el área SVG principal
+const svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", 1080)
+    .attr("height", 1080)
+  .append("g")
+    .attr("transform", "translate(600,600)"); // centro del círculo
+
+// Selección del SVG general para agregar texto (no dentro del grupo central)
+const svgContainer = d3.select("#my_dataviz svg");
+
+// Agregar TÍTULO
+svgContainer.append("text")
+  .attr("x", 540) // centro horizontal
+  .attr("y", 40)  // altura desde arriba
+  .attr("text-anchor", "middle")
+  .style("font-size", "28px")
+  .style("font-weight", "bold")
+  .text("Diagrama de Cuerdas");
+
+// Agregar SUBTÍTULO
+svgContainer.append("text")
+  .attr("x", 540)
+  .attr("y", 75)
+  .attr("text-anchor", "middle")
+  .style("font-size", "16px")
+  .style("fill", "#555")
+  .text("Visualización de relaciones entre grupos A, B y C");
