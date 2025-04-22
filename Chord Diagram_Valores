@@ -1,0 +1,47 @@
+//agregar despues de dibujar ribbons
+
+const labelRadius = 230; // Radio donde se colocan las etiquetas (fuera del círculo)
+
+// Función para calcular posición y rotación radial
+function radialLabelPosition(angle, radius = labelRadius) {
+  const x = Math.sin(angle) * radius;
+  const y = -Math.cos(angle) * radius;
+  const rotation = angle * 180 / Math.PI - 90;
+  return `translate(${x},${y}) rotate(${rotation})`;
+}
+
+// Labels en el extremo SOURCE
+svg
+  .append("g")
+  .selectAll("text.source-value")
+  .data(res)
+  .enter()
+  .append("text")
+    .attr("class", "source-value")
+    .attr("dy", ".35em")
+    .attr("transform", function(d) {
+      const angle = (d.source.startAngle + d.source.endAngle) / 2;
+      return radialLabelPosition(angle);
+    })
+    .style("text-anchor", "start")
+    .style("font-size", "10px")
+    .style("fill", "black")
+    .text(d => matrix[d.source.index][d.target.index]);
+
+// Labels en el extremo TARGET
+svg
+  .append("g")
+  .selectAll("text.target-value")
+  .data(res)
+  .enter()
+  .append("text")
+    .attr("class", "target-value")
+    .attr("dy", ".35em")
+    .attr("transform", function(d) {
+      const angle = (d.target.startAngle + d.target.endAngle) / 2;
+      return radialLabelPosition(angle);
+    })
+    .style("text-anchor", "start")
+    .style("font-size", "10px")
+    .style("fill", "gray")
+    .text(d => matrix[d.source.index][d.target.index]);
