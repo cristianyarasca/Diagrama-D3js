@@ -1,0 +1,10 @@
+svg
+  .datum(res)
+  .append("g")
+  .selectAll("path")
+  .data(d => d)
+  .join("path")
+    .attr("d", d3.ribbon().radius(200))
+    .style("fill", d => colors[d.source.index])
+    .style("stroke", "black")
+    .style("stroke-width", "0.5px"); // 👈 aquí defines el grosor
