@@ -1,0 +1,63 @@
+//AGREGAR TOOTIP
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Chord Diagram</title>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+
+  <div id="my_dataviz"></div>
+
+  <!-- Aquí va el tooltip, dentro del body -->
+  <div id="tooltip" style="
+    position: absolute;
+    display: none;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 6px;
+    font-size: 12px;
+    pointer-events: none;
+    border-radius: 4px;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.1);
+  "></div>
+
+  <!-- Aquí también podrías agregar tu script si no lo estás cargando desde un archivo externo -->
+  <script src="script.js"></script> <!-- si usas archivo externo -->
+</body>
+</html>
+
+
+///AGREGAR AL SCRIPT
+//REEMPLAZAR POR BLOQUE DE RIBBONS
+
+// Agregar los ribbons con interactividad
+svg
+  .datum(res)
+  .append("g")
+  .selectAll("path")
+  .data(d => d)
+  .join("path")
+    .attr("d", d3.ribbon().radius(500))
+    .style("fill", d => color(d.source.index))
+    .style("stroke", "black")
+    .style("stroke-width", "0.5px")
+    .on("mouseover", function(event, d) {
+      d3.select(this)
+        .style("fill", "orange"); // resaltar
+      d3.select("#tooltip")
+        .style("display", "block")
+        .html(`Valor: ${matrix[d.source.index][d.target.index]}`);
+    })
+    .on("mousemove", function(event) {
+      d3.select("#tooltip")
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY + 10) + "px");
+    })
+    .on("mouseout", function(event, d) {
+      d3.select(this)
+        .style("fill", color(d.source.index)); // volver al color original
+      d3.select("#tooltip").style("display", "none");
+    });
