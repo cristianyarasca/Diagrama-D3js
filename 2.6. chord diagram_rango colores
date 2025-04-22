@@ -1,0 +1,9 @@
+// Colocar despues de groups names
+// Crear escala de color automática usando interpolador
+const color = d3.scaleSequential()
+  .domain([0, groupNames.length - 1]) // Índices de grupo
+  .interpolator(d3.interpolateTurbo); // Puedes usar también: interpolateViridis, interpolatePlasma, etc.
+
+//Reemplaza los colores donde corresponden
+.style("fill", (d,i) => color(i)) // Para los arcs
+.style("fill", d => color(d.source.index)) // Para los ribbons
